@@ -1,0 +1,2 @@
+# hac
+Hash algorithm collider
