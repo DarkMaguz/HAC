@@ -33,8 +33,27 @@
 
 # Autotools
 .autotools
+app/Makefile
+app/autom4te.cache/
+app/config.log
+app/config.status
+app/libtool
+app/src/.deps/
+app/src/Makefile
+app/src/client/.deps/
+app/src/client/.libs/
+app/src/client/Makefile
+app/src/client/hac
+app/src/misc/.deps/
+app/src/misc/.libs/
+app/src/misc/Makefile
+app/src/server/.deps/
+app/src/server/.libs/
+app/src/server/Makefile
+app/src/server/hacd
 
 # Eclipse project files
 .cproject
 .project
 .settings/
+
