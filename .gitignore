@@ -64,3 +64,6 @@ app/src/client/workunit.dat
 # Server files
 datadir/
 log/
+
+# Developer scripts
+go.sh
