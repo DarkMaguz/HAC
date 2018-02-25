@@ -57,3 +57,6 @@ app/src/server/hacd
 .project
 .settings/
 
+# Client files
+app/src/client/config.cfg
+app/src/client/workunit.dat
