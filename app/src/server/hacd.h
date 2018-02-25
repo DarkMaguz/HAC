@@ -35,9 +35,6 @@ using namespace std;
 //#include <mysql++.h>
 //#include <ssqls.h>
 
-#define DEFAULT_SERVER_PORT 4337
-#define SERVER_HOST_NAME "localhost"
-
 #define DB_HOST_NAME "hacdb"
 #define DB_NAME "hac01"
 #define DB_USER "hac"

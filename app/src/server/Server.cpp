@@ -8,6 +8,7 @@
 #include "Server.h"
 
 Server::Server() :
+	ServerSocket( DEFAULT_SERVER_PORT ),
 	log( "log" ),
 	mutex_user( (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER ),
 	mutex_workunit( (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER ),

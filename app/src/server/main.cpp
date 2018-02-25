@@ -28,8 +28,6 @@ int main( int argc, char **argv )
 	pthread_t child;
 	pthread_attr_t pattr;
 	
-	ServerSocket ss( DEFAULT_SERVER_PORT );
-	
 	pthread_attr_init( &pattr );
 	pthread_attr_setdetachstate( &pattr, PTHREAD_CREATE_DETACHED );
 	
@@ -41,7 +39,7 @@ int main( int argc, char **argv )
 	while ( 1 )
 	{
 		
-		struct UserData *user = new struct UserData( ss.Accept(), &server );
+		struct UserData *user = new struct UserData( server.Accept(), &server );
 		
 		if ( user->ns.IsGood() )
 		{
