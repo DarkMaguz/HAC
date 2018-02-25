@@ -42,7 +42,7 @@ using namespace std;
 #define DB_USER "hac"
 #define DB_PASS "cah"
 
-#define TARGET_WORK_TIME 1200 // Seconds of work in a WU
+#define TARGET_WORK_TIME 15 // Seconds of work in a WU
 
 #define BOOL2ALPHA( x ) x ? "true" : "false"
 
@@ -151,6 +151,7 @@ struct UserData
 {
 	
 	NetStream ns;
+	uint64_t sessionStart;
 	
 	struct ServerData *server;
 	
@@ -165,6 +166,7 @@ struct UserData
 	
 	UserData( Socket sock, ServerData *server ) :
 		ns( sock ),
+		sessionStart( time(NULL) ),
 		server( server ),
 		id( 0 ),
 		score( 0 ),

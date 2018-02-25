@@ -479,6 +479,14 @@ void Client( struct UserData *user )
 			
 		}
 		
+		uint64_t seconds = time( NULL ) - user->sessionStart;
+		
+		if (seconds > 60)
+		{
+			user->server->log.Put( 0, user->id, "Client connection exceeded maximum allowed connection after %d seconds.", seconds );
+			break;
+		}
+		
 		user->ns >> choice;
 		user->server->log.Put( 0, user->id, ">>choice = %d.", choice );
 		
