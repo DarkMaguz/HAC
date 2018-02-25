@@ -32,7 +32,6 @@
 *.app
 
 # Autotools
-.autotools
 app/Makefile
 app/autom4te.cache/
 app/config.log
@@ -53,6 +52,7 @@ app/src/server/Makefile
 app/src/server/hacd
 
 # Eclipse project files
+.autotools
 .cproject
 .project
 .settings/
@@ -60,3 +60,7 @@ app/src/server/hacd
 # Client files
 app/src/client/config.cfg
 app/src/client/workunit.dat
+
+# Server files
+datadir/
+log/
