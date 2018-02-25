@@ -6,19 +6,27 @@ This is an old project of mine created to test a hash algorithm I created for fu
 The server app has been dockerized, so it’s easy to run.
 
 ### Running the server
+```bash
 export MYSQL_USER=hac
 export MYSQL_PASSWORD=cah
 export GMAIL_USER=my.gmail.address@gmail.com
 export GMAIL_PASSWORD=some.password
 ./run-server.sh
+```
 
 ### Running the client
 First register a new user:
-	./hac -r foobar foobar@foobar.com
+```bash
+./hac -r foobar foobar@foobar.com
+```
 Activate the account:
-	./hac -a
+```bash
+./hac -a
+```
 Run the client:
-	./hac
+```bash
+./hac
+```
 
 ### Plans for the future
 * Create a web interface for statistics.
