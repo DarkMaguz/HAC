@@ -6,5 +6,6 @@ This is an old project of mine created to test a hash algorithm I created for fu
 The server app it self has been dockerized, so it’s easy to run.
 
 ### Plans for the future
-Create a web interface for statistics.
-Separate the algorithm from the client/server, so that this project can be used for other purposes.
+* Create a web interface for statistics.
+* Separate the algorithm from the client/server, so that this project can be used for other purposes.
+
