@@ -8,6 +8,7 @@
 #ifndef HACD_H_
 #define HACD_H_
 
+#include "Server.h"
 #include "Log.h"
 #include "Hash.h"
 #include "Random.h"
@@ -104,7 +105,7 @@ struct Coordinates
 	
 };
 
-struct ServerData
+/*struct ServerData
 {
 	
 	Log log;
@@ -145,7 +146,7 @@ struct ServerData
 		pthread_mutex_destroy( &mutex_wubank );
 	}
 	
-};
+};*/
 
 struct UserData
 {
@@ -153,7 +154,7 @@ struct UserData
 	NetStream ns;
 	uint64_t sessionStart;
 	
-	struct ServerData *server;
+	Server *server;
 	
 	uint32_t id;
 	string name;
@@ -164,7 +165,7 @@ struct UserData
 	uint32_t wu_inprogress;
 	uint32_t wu_total;
 	
-	UserData( Socket sock, ServerData *server ) :
+	UserData( Socket sock, Server *server ) :
 		ns( sock ),
 		sessionStart( time(NULL) ),
 		server( server ),

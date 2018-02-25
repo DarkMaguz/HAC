@@ -7,6 +7,7 @@
 
 
 #include "hacd.h"
+#include "Server.h"
 
 int main( int argc, char **argv )
 {
@@ -22,7 +23,7 @@ int main( int argc, char **argv )
 			CreateTables();
 	}
 	
-	struct ServerData server;
+	Server server;
 	
 	pthread_t child;
 	pthread_attr_t pattr;
