@@ -42,7 +42,7 @@ using namespace std;
 #define DB_USER "hac"
 #define DB_PASS "cah"
 
-#define TARGET_WORK_TIME 15 // 1 minutes 3600// 1 hour 18000 // 5 hours
+#define TARGET_WORK_TIME 1200 // Seconds of work in a WU
 
 #define BOOL2ALPHA( x ) x ? "true" : "false"
 
