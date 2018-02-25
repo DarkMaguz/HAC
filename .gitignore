@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# Autotools
+.autotools
+
+# Eclipse project files
+.cproject
+.project
+.settings/
