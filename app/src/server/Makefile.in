@@ -102,7 +102,7 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_hacd_OBJECTS = hacd-main.$(OBJEXT) hacd-hacd.$(OBJEXT) \
-	hacd-Server.$(OBJEXT)
+	hacd-Server.$(OBJEXT) hacd-User.$(OBJEXT)
 hacd_OBJECTS = $(am_hacd_OBJECTS)
 hacd_DEPENDENCIES = ../misc/libhac.la
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -297,7 +297,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-hacd_SOURCES = main.cpp hacd.cpp Server.cpp
+hacd_SOURCES = main.cpp hacd.cpp Server.cpp User.cpp
 hacd_CPPFLAGS = -I"/usr/include/mysql++" -I"/usr/include/mysql" -I"../misc"
 #$(MYSQLPP_CFLAGS) -I"../misc"
 hacd_LDADD = ../misc/libhac.la -L/usr/lib/x86_64-linux-gnu -lmariadbclient -lpthread -lz -lm -ldl -lmysqlpp -lmysqlcppconn
@@ -395,6 +395,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hacd-Server.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hacd-User.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hacd-hacd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hacd-main.Po@am__quote@
 
@@ -460,6 +461,20 @@ hacd-Server.obj: Server.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Server.cpp' object='hacd-Server.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(hacd_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o hacd-Server.obj `if test -f 'Server.cpp'; then $(CYGPATH_W) 'Server.cpp'; else $(CYGPATH_W) '$(srcdir)/Server.cpp'; fi`
+
+hacd-User.o: User.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(hacd_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT hacd-User.o -MD -MP -MF $(DEPDIR)/hacd-User.Tpo -c -o hacd-User.o `test -f 'User.cpp' || echo '$(srcdir)/'`User.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/hacd-User.Tpo $(DEPDIR)/hacd-User.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='User.cpp' object='hacd-User.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(hacd_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o hacd-User.o `test -f 'User.cpp' || echo '$(srcdir)/'`User.cpp
+
+hacd-User.obj: User.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(hacd_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT hacd-User.obj -MD -MP -MF $(DEPDIR)/hacd-User.Tpo -c -o hacd-User.obj `if test -f 'User.cpp'; then $(CYGPATH_W) 'User.cpp'; else $(CYGPATH_W) '$(srcdir)/User.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/hacd-User.Tpo $(DEPDIR)/hacd-User.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='User.cpp' object='hacd-User.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(hacd_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o hacd-User.obj `if test -f 'User.cpp'; then $(CYGPATH_W) 'User.cpp'; else $(CYGPATH_W) '$(srcdir)/User.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

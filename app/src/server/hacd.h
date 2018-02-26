@@ -9,6 +9,7 @@
 #define HACD_H_
 
 #include "Server.h"
+#include "User.h"
 #include "Log.h"
 #include "Hash.h"
 #include "Random.h"
@@ -35,10 +36,10 @@ using namespace std;
 //#include <mysql++.h>
 //#include <ssqls.h>
 
-#define DB_HOST_NAME "hacdb"
+/*#define DB_HOST_NAME "hacdb"
 #define DB_NAME "hac01"
 #define DB_USER "hac"
-#define DB_PASS "cah"
+#define DB_PASS "cah"*/
 
 #define TARGET_WORK_TIME 15 // Seconds of work in a WU
 
@@ -145,184 +146,184 @@ struct Coordinates
 	
 };*/
 
-struct UserData
-{
-	
-	NetStream ns;
-	uint64_t sessionStart;
-	
-	Server *server;
-	
-	uint32_t id;
-	string name;
-	string email;
-	uint64_t score;
-	string validation;
-	uint32_t wu_completed;
-	uint32_t wu_inprogress;
-	uint32_t wu_total;
-	
-	UserData( Socket sock, Server *server ) :
-		ns( sock ),
-		sessionStart( time(NULL) ),
-		server( server ),
-		id( 0 ),
-		score( 0 ),
-		wu_completed( 0 ),
-		wu_inprogress( 0 ),
-		wu_total( 0 )
-	{
-		
-	}
-	
-	/*virtual ~UserData()
-	{
-		
-	}
-	
-	private:
-	
-	UserData( const UserData &x ) :
-		ns( x.ns ),
-		server( x.server ),
-		id( x.id ),
-		name( x.name ),
-		email( x.email ),
-		score( x.score ),
-		validation( x.validation ),
-		wu_completed( x.wu_completed ),
-		wu_inprogress( x.wu_inprogress ),
-		wu_total( x.wu_total )
-	{
-		
-	}
-	
-	UserData &operator =( const UserData &x )
-	{
-		
-		id = x.id;
-		ns = x.ns;
-		server = x.server;
-		name = x.name;
-		email = x.email;
-		score = x.score;
-		validation = x.validation;
-		wu_completed = x.wu_completed;
-		wu_inprogress = x.wu_inprogress;
-		wu_total = x.wu_total;
-		
-		return *this;
-		
-	}
-	
-	public:*/
-	
-	bool Activate( void )
-	{
-		
-		if ( validation.length() != 12 )
-			return false;
-		
-		if ( !name.empty() || id != 0 )
-		{
-			
-			mysqlpp::Connection conn( false );
-			conn.connect( DB_NAME, DB_HOST_NAME, DB_USER, DB_PASS );
-			
-			mysqlpp::Query query = conn.query();
-			
-			if ( id != 0 )
-				query << "SELECT * FROM user WHERE id = \"" << id << "\" LIMIT 1;";
-			else
-				query << "SELECT * FROM user WHERE name = \"" << name << "\" LIMIT 1;";
-			
-			mysqlpp::Row row = query.use().fetch_row();
-			
-			if ( !row.empty() )
-			{
-				
-				id = row["id"];
-				row["name"].to_string( name );
-				
-				string val;
-				row["validation"].to_string( val );
-				
-				if ( val == validation )
-				{
-					query = conn.query();
-					query << "UPDATE user SET validation = \"\" WHERE id = \"" << id << "\" LIMIT 1;";
-					query.execute();
-						
-					validation.clear();
-					
-					return true;
-					
-				}
-				else
-				{
-					return false;
-				}
-				
-			}
-			
-		}
-		
-		id = 0;
-		
-		return false;
-		
-	}
-	
-	bool Get( void )
-	{
-		
-		if ( !name.empty() || id != 0 )
-		{
-			
-			mysqlpp::Connection conn( false );
-			conn.connect( DB_NAME, DB_HOST_NAME, DB_USER, DB_PASS );
-			
-			mysqlpp::Query query = conn.query();
-			
-			if ( id != 0 )
-				query << "SELECT * FROM user WHERE id = \"" << id << "\" LIMIT 1;";
-			else
-				query << "SELECT * FROM user WHERE name = \"" << name << "\" LIMIT 1;";
-			
-			mysqlpp::StoreQueryResult res = query.store();
-			if ( !res )
-			{
-				server->log.Put( 8, id, "e = %s.", query.error() );
-			}
-			
-			if ( !res.empty() )
-			{
-				
-				id = res[0]["id"];
-				res[0]["name"].to_string( name );
-				res[0]["email"].to_string( email );
-				score = res[0]["score"];
-				//memcpy( &score, res[0]["score"].c_str(), 8 );
-				res[0]["validation"].to_string( validation );
-				wu_completed = res[0]["wu_completed"];
-				wu_inprogress = res[0]["wu_inprogress"];
-				wu_total = res[0]["wu_total"];
-				return true;
-				
-			}
-			
-		}
-		
-		return false;
-		
-	}
-	
-};
+//struct UserData
+//{
+//	
+//	NetStream ns;
+//	uint64_t sessionStart;
+//	
+//	Server *server;
+//	
+//	uint32_t id;
+//	string name;
+//	string email;
+//	uint64_t score;
+//	string validation;
+//	uint32_t wu_completed;
+//	uint32_t wu_inprogress;
+//	uint32_t wu_total;
+//	
+//	UserData( Socket sock, Server *server ) :
+//		ns( sock ),
+//		sessionStart( time(NULL) ),
+//		server( server ),
+//		id( 0 ),
+//		score( 0 ),
+//		wu_completed( 0 ),
+//		wu_inprogress( 0 ),
+//		wu_total( 0 )
+//	{
+//		
+//	}
+//	
+//	/*virtual ~UserData()
+//	{
+//		
+//	}
+//	
+//	private:
+//	
+//	UserData( const UserData &x ) :
+//		ns( x.ns ),
+//		server( x.server ),
+//		id( x.id ),
+//		name( x.name ),
+//		email( x.email ),
+//		score( x.score ),
+//		validation( x.validation ),
+//		wu_completed( x.wu_completed ),
+//		wu_inprogress( x.wu_inprogress ),
+//		wu_total( x.wu_total )
+//	{
+//		
+//	}
+//	
+//	UserData &operator =( const UserData &x )
+//	{
+//		
+//		id = x.id;
+//		ns = x.ns;
+//		server = x.server;
+//		name = x.name;
+//		email = x.email;
+//		score = x.score;
+//		validation = x.validation;
+//		wu_completed = x.wu_completed;
+//		wu_inprogress = x.wu_inprogress;
+//		wu_total = x.wu_total;
+//		
+//		return *this;
+//		
+//	}
+//	
+//	public:*/
+//	
+//	bool Activate( void )
+//	{
+//		
+//		if ( validation.length() != 12 )
+//			return false;
+//		
+//		if ( !name.empty() || id != 0 )
+//		{
+//			
+//			mysqlpp::Connection conn( false );
+//			conn.connect( DB_NAME, DB_HOST_NAME, DB_USER, DB_PASS );
+//			
+//			mysqlpp::Query query = conn.query();
+//			
+//			if ( id != 0 )
+//				query << "SELECT * FROM user WHERE id = \"" << id << "\" LIMIT 1;";
+//			else
+//				query << "SELECT * FROM user WHERE name = \"" << name << "\" LIMIT 1;";
+//			
+//			mysqlpp::Row row = query.use().fetch_row();
+//			
+//			if ( !row.empty() )
+//			{
+//				
+//				id = row["id"];
+//				row["name"].to_string( name );
+//				
+//				string val;
+//				row["validation"].to_string( val );
+//				
+//				if ( val == validation )
+//				{
+//					query = conn.query();
+//					query << "UPDATE user SET validation = \"\" WHERE id = \"" << id << "\" LIMIT 1;";
+//					query.execute();
+//						
+//					validation.clear();
+//					
+//					return true;
+//					
+//				}
+//				else
+//				{
+//					return false;
+//				}
+//				
+//			}
+//			
+//		}
+//		
+//		id = 0;
+//		
+//		return false;
+//		
+//	}
+//	
+//	bool Get( void )
+//	{
+//		
+//		if ( !name.empty() || id != 0 )
+//		{
+//			
+//			mysqlpp::Connection conn( false );
+//			conn.connect( DB_NAME, DB_HOST_NAME, DB_USER, DB_PASS );
+//			
+//			mysqlpp::Query query = conn.query();
+//			
+//			if ( id != 0 )
+//				query << "SELECT * FROM user WHERE id = \"" << id << "\" LIMIT 1;";
+//			else
+//				query << "SELECT * FROM user WHERE name = \"" << name << "\" LIMIT 1;";
+//			
+//			mysqlpp::StoreQueryResult res = query.store();
+//			if ( !res )
+//			{
+//				server->log.Put( 8, id, "e = %s.", query.error() );
+//			}
+//			
+//			if ( !res.empty() )
+//			{
+//				
+//				id = res[0]["id"];
+//				res[0]["name"].to_string( name );
+//				res[0]["email"].to_string( email );
+//				score = res[0]["score"];
+//				//memcpy( &score, res[0]["score"].c_str(), 8 );
+//				res[0]["validation"].to_string( validation );
+//				wu_completed = res[0]["wu_completed"];
+//				wu_inprogress = res[0]["wu_inprogress"];
+//				wu_total = res[0]["wu_total"];
+//				return true;
+//				
+//			}
+//			
+//		}
+//		
+//		return false;
+//		
+//	}
+//	
+//};
 
-void Client( struct UserData *user );
+void Client( User *user );
 void *Welcome( void *cs );
 
-int32_t NewUser( struct UserData *user );
+int32_t NewUser( User *user );
 
 void TruncTables( void );
 void CreateTables( void );

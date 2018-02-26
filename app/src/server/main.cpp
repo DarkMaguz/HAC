@@ -8,6 +8,7 @@
 
 #include "hacd.h"
 #include "Server.h"
+#include "User.h"
 
 int main( int argc, char **argv )
 {
@@ -39,7 +40,7 @@ int main( int argc, char **argv )
 	while ( 1 )
 	{
 		
-		struct UserData *user = new struct UserData( server.Accept(), &server );
+		User *user = new User( server.Accept(), &server );
 		
 		if ( user->ns.IsGood() )
 		{

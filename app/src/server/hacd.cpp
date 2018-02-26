@@ -7,7 +7,7 @@
 
 #include "hacd.h"
 
-void Client( struct UserData *user )
+void Client( User *user )
 {
 	
 	int32_t choice;
@@ -499,7 +499,7 @@ void *Welcome( void *ud )
 	
 	//cout << "Connected" << endl;
 	
-	struct UserData *user( (struct UserData *)ud );
+	User *user( (User *)ud );
 	
 	user->ns >> user->id;
 	user->server->log.Put( 0, user->id, "%s.", "Connected" );
@@ -620,7 +620,7 @@ void *Welcome( void *ud )
 	
 }
 
-int32_t NewUser( struct UserData *user )
+int32_t NewUser( User *user )
 {
 	static const string goodchars = "-_.";
 	static const uint32_t alpha_list[] =
@@ -747,7 +747,7 @@ int32_t NewUser( struct UserData *user )
 //	while ( 1 )
 //	{
 //		
-//		struct UserData *user = new struct UserData( ss.Accept(), &server );
+//		User *user = new User( ss.Accept(), &server );
 //		
 //		if ( user->ns.IsGood() )
 //		{
