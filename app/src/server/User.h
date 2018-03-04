@@ -2,7 +2,7 @@
  * User.h
  *
  *  Created on: 26. feb. 2018
- *      Author: magnus
+ *      Author: Peter S. Balling
  */
 
 #ifndef APP_SRC_SERVER_USER_H_

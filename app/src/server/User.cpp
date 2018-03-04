@@ -2,7 +2,7 @@
  * User.cpp
  *
  *  Created on: 26. feb. 2018
- *      Author: magnus
+ *      Author: Peter S. Balling
  */
 
 #include "User.h"

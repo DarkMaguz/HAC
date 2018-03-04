@@ -2,7 +2,7 @@
  * Server.h
  *
  *  Created on: 25. feb. 2018
- *      Author: magnus
+ *      Author: Peter S. Balling
  */
 
 #ifndef APP_SRC_SERVER_SERVER_H_

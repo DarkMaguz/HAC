@@ -2,7 +2,7 @@
  * Server.cpp
  *
  *  Created on: 25. feb. 2018
- *      Author: magnus
+ *      Author: Peter S. Balling
  */
 
 #include "Server.h"
