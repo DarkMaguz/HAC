@@ -94,15 +94,6 @@ sql_create_5( stock_wubank, 1, 5,
 		mysqlpp::sql_tinyblob, x_password,
 		mysqlpp::sql_bool, open )*/
 
-struct Coordinates
-{
-	
-	Coordinates( const uint64_t &x = 0, const uint64_t &y = 0 ) : x( x ), y( y ) { }
-	uint64_t x;
-	uint64_t y;
-	
-};
-
 /*struct ServerData
 {
 	

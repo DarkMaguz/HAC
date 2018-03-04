@@ -6,6 +6,7 @@
  */
 
 #include "hacd.h"
+#include "Coordinates.h"
 
 void Client( User *user )
 {

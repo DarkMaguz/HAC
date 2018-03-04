@@ -16,6 +16,7 @@
 
 #include "Socket.h"
 #include "NetStream.h"
+#include "Coordinates.h"
 #include "Utils.h"
 
 #include <iostream>
@@ -37,15 +38,6 @@ using namespace std;
 #define AUTOSAVE_TIME 300
 #define WORKUNIT_PATH "workunit.dat"
 #define WORKUNIT_PATH_BAK "workunit.bak"
-
-struct Coordinates
-{
-	
-	Coordinates( const uint64_t &x = 0, const uint64_t &y = 0 ) : x( x ), y( y ) { }
-	uint64_t x;
-	uint64_t y;
-		
-};
 
 struct SubWorkUnit
 {
