@@ -28,7 +28,7 @@ template<typename T> class Set
 	public:
 		Set()
 		{
-			static const Set_t s_C =
+			static const Set_t charSet =
 			{
 				0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,	30, 31, 32,
 				33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62,
@@ -41,7 +41,7 @@ template<typename T> class Set
 				210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232,
 				233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255
 			};
-			memcpy( data, s_C, HASH8_SIZE * sizeof( T ) );
+			memcpy( data, charSet, HASH8_SIZE * sizeof( T ) );
 		}
 		
 		inline void Erase( const T &at ) { data[at] = -1; }
@@ -67,39 +67,11 @@ class Hash
 		Hash( const Password &pwd );
 		virtual ~Hash() { };
 		
-		void Print( void )
-		{
-			for ( uint32_t i = 0; i < HASH64_SIZE; i++ )
-			{
-				 cout << hash64_u[i] << " ";
-			}
-			cout << endl;
-			cout << endl;
-		}
+		void Print( void ) const;
 		
-		//void operator =( const Hash &x );
 		inline void operator =( const Password &pwd )
 		{
-			
-			Set<uint32_t> C;
-			
-			uint32_t size = HASH8_SIZE;
-			uint32_t t1;
-			
-			//const password_t *pwd_ptr = pwd.Get1();
-			const uint32_t *pwd_ptr = pwd.Get1();
-			
-			for ( uint32_t i = 0; i < HASH8_SIZE; i++ )
-			{
-				
-				t1 = C.At( ( pwd_ptr[ i % pwd.Size()] * ( ( i / pwd.Size() ) + 1 ) ) % size );
-				size--;
-				hash8_u[i] = t1;
-				
-				C.Erase( t1 );
-				
-			}
-			
+			SetPassword(pwd);
 		}
 		
 		inline bool operator ==( const Hash &x ) const
@@ -144,6 +116,24 @@ class Hash
 		}
 		
 	private:
+		inline void SetPassword( const Password &pwd )
+		{
+			Set<uint32_t> charSet;
+			
+			uint32_t size = HASH8_SIZE;
+			uint32_t res;
+			
+			const uint32_t *pwd_ptr = pwd.Get1();
+			
+			for (uint32_t i = 0; i < HASH8_SIZE ; i++)
+			{
+				res = charSet.At((pwd_ptr[i % pwd.Size()] * ((i / pwd.Size()) + 1)) % size);
+				size--;
+				hash8_u[i] = res;
+				
+				charSet.Erase(res);
+			}
+		}
 		
 		union
 		{
@@ -158,23 +148,21 @@ class Hash
 
 struct HashData
 {
-	
 	HashData() :
 		id( 0 )
 	{
-		
 	};
+	
 	HashData( const Password &pwd ) :
 		hash( pwd ),
 		id( 0 )
 	{
-		
 	};
+	
 	HashData( const Password &pwd, const uint64_t &id ) :
 		hash( pwd ),
 		id( id )
 	{
-		
 	};
 	
 	Hash hash;
