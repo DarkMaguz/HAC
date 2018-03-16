@@ -13,6 +13,7 @@
 #include "Config.h"
 #include "Password.h"
 #include "Hash.h"
+#include "HashData.h"
 
 #include "Socket.h"
 #include "NetStream.h"
