@@ -55,9 +55,6 @@ struct HashData
 	{
 		return hash >= x.hash;
 	}
-	
 };
-
-
 
 #endif /* HASHDATA_H_ */

@@ -41,12 +41,15 @@ template<typename T> class Set
 				210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232,
 				233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255
 			};
-			memcpy( data, charSet, HASH8_SIZE * sizeof( T ) );
+			memcpy(data, charSet, HASH8_SIZE * sizeof(T));
 		}
 		
-		inline void Erase( const T &at ) { data[at] = -1; }
+		inline void Erase(const T &at)
+		{
+			data[at] = -1;
+		}
 		
-		inline const T At( T at ) const
+		inline const T At(T at) const
 		{
 			static const T npos = -1;
 			for ( T i = 0; i <= at; i++ )
@@ -63,60 +66,60 @@ class Hash
 {
 	public:
 		Hash() { };
-		Hash( const Hash &x );
-		Hash( const Password &pwd );
+		Hash(const Hash &x);
+		Hash(const Password &pwd);
 		virtual ~Hash() { };
 		
-		void Print( void ) const;
-		
-		inline void operator =( const Password &pwd )
+		void Print(void) const;
+
+		inline void operator =(const Password &pwd)
 		{
 			SetPassword(pwd);
 		}
 		
-		inline bool operator ==( const Hash &x ) const
+		inline bool operator ==(const Hash &x) const
 		{
-			for ( uint32_t i = 0; i < HASH64_SIZE; i++ )
-				if ( hash64_u[i] != x.hash64_u[i] )
+			for (uint32_t i = 0; i < HASH64_SIZE ; i++)
+				if (hash64_u[i] != x.hash64_u[i])
 					return false;
 			
 			return true;
 		}
 		
-		inline bool operator !=( const Hash &x ) const
+		inline bool operator !=(const Hash &x) const
 		{
-			return !this->operator ==( x );
+			return !this->operator ==(x);
 		}
 		
-		bool operator <( const Hash &x ) const
+		bool operator <(const Hash &x) const
 		{
-			for ( uint32_t i = 0; i < HASH64_SIZE; i++ )
-				if ( hash64_u[i] != x.hash64_u[i] )
+			for (uint32_t i = 0; i < HASH64_SIZE ; i++)
+				if (hash64_u[i] != x.hash64_u[i])
 					return hash64_u[i] < x.hash64_u[i];
 			
 			return false;
 		}
-		bool operator >( const Hash &x ) const
+		bool operator >(const Hash &x) const
 		{
-			for ( uint32_t i = 0; i < HASH64_SIZE; i++ )
-				if ( hash64_u[i] != x.hash64_u[i] )
+			for (uint32_t i = 0; i < HASH64_SIZE ; i++)
+				if (hash64_u[i] != x.hash64_u[i])
 					return hash64_u[i] > x.hash64_u[i];
 			
 			return false;
 		}
-		bool operator >=( const Hash &x ) const
+		bool operator >=(const Hash &x) const
 		{
-			for ( uint32_t i = 0; i < HASH64_SIZE; i++ )
-				if ( hash64_u[i] > x.hash64_u[i] )
+			for (uint32_t i = 0; i < HASH64_SIZE ; i++)
+				if (hash64_u[i] > x.hash64_u[i])
 					return true;
-				else if ( hash64_u[i] != x.hash64_u[i])
+				else if (hash64_u[i] != x.hash64_u[i])
 					return false;
 			
 			return true;
 		}
 		
 	private:
-		inline void SetPassword( const Password &pwd )
+		inline void SetPassword(const Password &pwd)
 		{
 			Set<uint32_t> charSet;
 			
@@ -141,7 +144,6 @@ class Hash
 				hash32_t hash32_u;
 				hash64_t hash64_u;
 		};
-		
 };
 
 #endif /* HASH_H_ */

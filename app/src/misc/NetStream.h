@@ -17,100 +17,80 @@
 #include <iostream>
 using namespace std;
 
-class NetStream : public Socket
+class NetStream: public Socket
 {
 	public:
-		NetStream( const Socket &sockfd );
+		NetStream(const Socket &sockfd);
 		virtual ~NetStream();
 		
 		template<typename T>
-		NetStream &operator <<( const T &data )
+		NetStream &operator <<(const T &data)
 		{
-			
-			Write( reinterpret_cast<const char *>( &data ), sizeof( T ) );
-			
+			Write(reinterpret_cast<const char *>(&data), sizeof(T));
 			return *this;
-			
 		}
 		
 		template<typename T>
-		NetStream &operator >>( T &data )
+		NetStream &operator >>(T &data)
 		{
-			
-			Read( (char *)&data );
-			
+			Read((char *)&data);
 			return *this;
-			
 		}
 		
 		template<typename T>
-		NetStream &operator <<( const vector<T> &data )
+		NetStream &operator <<(const vector<T> &data)
 		{
-			
-			Write( reinterpret_cast<const char *>( data.data() ), sizeof( T ) * data.size() );
-			
+			Write(reinterpret_cast<const char *>(data.data()), sizeof(T) * data.size());
 			return *this;
-			
 		}
 		
 		template<typename T>
-		NetStream &operator >>( vector<T> &data )
+		NetStream &operator >>(vector<T> &data)
 		{
-			
 			int32_t len;
 			
-			if ( !ReadSize( reinterpret_cast<char *>( &len ) ) )
+			if (!ReadSize(reinterpret_cast<char *>(&len)))
 				return *this;
 			
-			data.resize( len / sizeof( T ) );
-			
-			Reader( reinterpret_cast<char *>( data.data() ), len );
-			
-			return *this;
-			
-		}
-		
-		NetStream &operator <<( string &data )
-		{
-			
-			Write( reinterpret_cast<const char *>( data.c_str() ), data.size() );
+			data.resize(len / sizeof(T));
+			Reader(reinterpret_cast<char *>(data.data()), len);
 			
 			return *this;
-			
 		}
 		
-		NetStream &operator >>( string &data )
+		NetStream &operator <<(string &data)
 		{
-			
+			Write(reinterpret_cast<const char *>(data.c_str()), data.size());
+			return *this;
+		}
+		
+		NetStream &operator >>(string &data)
+		{
 			int32_t len;
 			
-			if ( !ReadSize( reinterpret_cast<char *>( &len ) ) )
+			if (!ReadSize(reinterpret_cast<char *>(&len)))
 				return *this;
 			
 			char *tmp = new char[len];
 			
-			Reader( tmp, len );
-			
-			data.assign( tmp, len );
-			
-			delete []tmp;
+			Reader(tmp, len);
+			data.assign(tmp, len);
+
+			delete[] tmp;
 			
 			return *this;
-			
 		}
 		
-		bool Write( const char *data, const int32_t &len );
-		bool Read( char *data, int32_t &len );
-		bool Read( char *data, uint32_t &ulen );
-		bool Read( char *data );
+		bool Write(const char *data, const int32_t &len);
+		bool Read(char *data, int32_t &len);
+		bool Read(char *data, uint32_t &ulen);
+		bool Read(char *data);
 		
 	private:
+		bool WriteSize(const char *size);
+		bool ReadSize(char *size);
 		
-		bool WriteSize( const char *size );
-		bool ReadSize( char *size );
-		
-		bool Reader( char *data, const int32_t &len );
-		
+		bool Reader(char *data, const int32_t &len);
 };
 
 #endif /* NETSTREAM_H_ */
