@@ -7,13 +7,9 @@
 
 #include "Log.h"
 
-Log::Log( const string &dir ) ://, const string &main_log_file ) :
+Log::Log( const string &dir ) :
 	dir( dir )
 {
-	
-	//struct LogFile *main = new struct LogFile( dir + main_log_file );
-	
-	//files.push_back( new struct LogFile( dir + main_log_file ) );
 	
 	makedir( dir.c_str() );
 	
@@ -32,36 +28,9 @@ void Log::AddFile( const string &log_file )
 	
 	mkfile( ( dir + "/" + log_file ).c_str() );
 	
-	//struct LogFile *logfile = new struct LogFile( dir + log_file );
 	files.push_back( new struct LogFile( dir + "/" + log_file ) );
 	
-	/*mkfile( ( dir + "/" + log_file ).c_str() );
-	
-	struct LogFile *logfile = new struct LogFile( dir + log_file );
-	
-	logfile->fs << endl << "----------------------------------------------------------------------" << endl;
-	files[file_id]->fs << time( NULL ) << ": " << "log start" << endl;
-	logfile->fs << "----------------------------------------------------------------------" << endl << endl;
-	
-	files.push_back( logfile );*/
-	
 }
-
-/*void Log::Put( const int &file_id, const uint32_t &user, const string &msg )
-{
-	
-	pthread_mutex_lock( &files[file_id]->mutex_fs );
-	*/
-	/*time( &rawtime );
-	timeinfo = localtime( &rawtime );*/
-	
-	//timeinfo->tm_hour << ":" << timeinfo->tm_mday << " " << timeinfo->tm_hour << ":" << timeinfo->tm_min << ":" << timeinfo->tm_sec << ":";
-	
-/**	files[file_id]->fs << time( NULL ) << " User " << user << ": " << msg << endl;
-	
-	pthread_mutex_unlock( &files[file_id]->mutex_fs );
-	
-}*/
 
 void Log::Put( const int &file_id, const uint32_t &user, const string &format, ... )
 {
@@ -139,7 +108,7 @@ void Log::Put( const int &file_id, const uint32_t &user, const string &format, .
 			case 'P':
 			{
 				Password *p = (Password *)va_arg( ap, void * );
-				//files[file_id]->fs << p;
+				
 				p->Print( files[file_id]->fs );
 #if DEBUG_LOG == 1
 				//cout << p << " @ ";

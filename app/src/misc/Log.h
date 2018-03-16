@@ -25,26 +25,20 @@ using namespace std;
 
 struct LogFile
 {
-	
+		
 	LogFile( const string& path ) :
 		path( path ),
 		mutex_fs( (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER ),
 		fs( path.c_str(), ios::out | ios::app )
 	{
-		
 		fs << "Log session started " << str_date() << endl;
-		
 	}
 	
 	virtual ~LogFile()
 	{
-		
 		pthread_mutex_destroy( &mutex_fs );
-		
 		fs << "Log session stopped " << str_date() << endl;
-		
 		fs.close();
-		
 	}
 	
 	const string path;
@@ -57,22 +51,14 @@ struct LogFile
 class Log
 {
 	public:
-		Log( const string &dir );//, const string &main_log_file );
+		Log( const string &dir );
 		virtual ~Log();
 		
 		void AddFile( const string &log_file );
-		
-		//void Put( const int &file_id, const uint32_t &user, const string &msg );
-		
 		void Put( const int &file_id, const uint32_t &user, const string &format, ... );
 		
 	private:
-		
-		//time_t rawtime;
-		//struct tm *timeinfo;
-		
 		vector<struct LogFile *> files;
-		
 		const string dir;
 		
 };
