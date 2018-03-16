@@ -75,6 +75,36 @@ void Password::operator =(const Password &x)
 	memcpy(password, x.password, 256);
 }
 
+NetStream &Password::operator <<(NetStream &ns) const
+{
+	uint8_t *tmp = new uint8_t[size];
+	
+	for (uint32_t i = 0; i < size; i++)
+		tmp[i] = password[i];
+	
+	ns.Write(reinterpret_cast<const char *>(tmp), size);
+	
+	delete[] tmp;
+	
+	return ns;
+}
+
+NetStream &Password::operator >>(NetStream &ns)
+{
+	uint8_t *tmp = new uint8_t[PASSWORD_SIZE ];
+	
+	ns.Read(reinterpret_cast<char *>(tmp), size);
+	
+	memset(password + size, 0, (PASSWORD_SIZE - size) * 4);
+	
+	for (uint32_t i = 0; i < size; i++)
+		password[i] = tmp[i];
+	
+	delete[] tmp;
+	
+	return ns;
+}
+
 bool Password::operator ==(const Password &x) const
 {
 	if (size != x.size)
@@ -159,36 +189,6 @@ void Password::operator +=(uint64_t x)
 		size = i;
 }
 
-/*void Password::operator +=( const Password &x )
- {
- 
- size = getmax( size, x.size );
- uint32_t i = 0;
- const uint32_t sizem1 = size - 1;
- 
- for ( ; i < sizem1; i++ )
- {
- 
- password[i] += x.password[i];
- 
- if ( password[i] >= alpha_list_size )
- {
- password[i] -= alpha_list_size;
- password[i + 1]++;
- }
- 
- }
- 
- password[i] += x.password[i];
- 
- if ( password[i] >= alpha_list_size )
- {
- password[i] -= alpha_list_size;
- size++;
- }
- 
- }*/
-
 void Password::operator ++(int32_t)
 {
 	for (uint32_t i = 0; i < size; i++)
@@ -209,7 +209,6 @@ bool Password::Add(uint64_t x)
 	
 	while (x)
 	{
-		
 		x += password[i - 1];
 		password[i - 1] = x % alpha_list_size;
 		x /= alpha_list_size;
@@ -222,7 +221,6 @@ bool Password::Add(uint64_t x)
 				else
 					x--;
 			}
-		
 	}
 	
 	if (i > size)
@@ -230,44 +228,6 @@ bool Password::Add(uint64_t x)
 	
 	return true;
 }
-
-/*bool Password::Add( const Password &x )
- {
- 
- size = getmax( size, x.size );
- uint32_t i = 0;
- const uint32_t sizem1 = size - 1;
- 
- for ( ; i < sizem1; i++ )
- {
- 
- password[i] += x.password[i];
- 
- if ( password[i] >= alpha_list_size )
- {
- password[i] -= alpha_list_size;
- password[i + 1]++;
- }
- 
- }
- 
- password[i] += x.password[i];
- 
- if ( password[i] >= alpha_list_size )
- {
- 
- if ( size == PASSWORD_SIZE )
- return false;
- 
- password[i] -= alpha_list_size;
- 
- size++;
- 
- }
- 
- return true;
- 
- }*/
 
 uint64_t Password::MaxAdd(void) const
 {
@@ -296,14 +256,8 @@ uint64_t Password::Sub(const Password &x) const
 	{
 		sum = password[i] - x.password[i] - rem;
 		
-		//cout << "+\t" << password[i] << endl;
-		//cout << "-\t" << x.password[i] << endl;
-		//cout << "=\t" << sum << endl;
-		
 		if (i != 0 && i < x.size)
 			sum--;
-		
-		//cout << "=\t" << sum << endl;
 		
 		if (sum < 0)
 		{
@@ -314,16 +268,12 @@ uint64_t Password::Sub(const Password &x) const
 		{
 			rem = 0;
 		}
-		//cout << "=\t" << sum << endl << endl;
 		
 		tmp.password[i] = sum;
 	}
 	
 	if (rem != 0)
-	{
 		tmp.size--;
-		//cout << "rem" << endl;
-	}
 	
 	return tmp.Convert();
 }
@@ -338,25 +288,13 @@ uint64_t Password::Convert(void) const
 	return res;
 }
 
-const uint32_t *Password::Get1(void) const
+const uint32_t *Password::Get(void) const
 {
 	for (uint32_t i = 0; i < size; i++)
 		pwd1[i] = alpha_list[password[i]];
 	
 	return pwd1;
 }
-
-/*const uint8_t *Password::Get2( void ) const
- {
- 
- pwd2[0] = size;
- 
- for ( uint32_t i = 0; i < size; i++ )
- pwd2[i+1] = alpha_list[password[i]];
- 
- return pwd2;
- 
- }*/
 
 const uint32_t Password::Size(void) const
 {
@@ -397,7 +335,6 @@ istream &operator >>(istream &is, Password &x)
 	x.size = (uint8_t)is.get();
 	
 	memset(x.password + x.size, 0, (PASSWORD_SIZE - x.size) * 4);
-	//memset( password, 0, 256 );
 	
 	for (uint32_t i = 0; i < x.size; i++)
 		x.password[i] = (uint8_t)is.get();

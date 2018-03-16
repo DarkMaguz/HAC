@@ -126,7 +126,7 @@ class Hash
 			uint32_t size = HASH8_SIZE;
 			uint32_t res;
 			
-			const uint32_t *pwd_ptr = pwd.Get1();
+			const uint32_t *pwd_ptr = pwd.Get();
 			
 			for (uint32_t i = 0; i < HASH8_SIZE ; i++)
 			{
