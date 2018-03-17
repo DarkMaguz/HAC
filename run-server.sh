@@ -5,6 +5,8 @@
 : "${GMAIL_USER:?GMAIL_USER environment variable must be set!}"
 : "${GMAIL_PASSWORD:?GMAIL_PASSWORD environment variable must be set!}"
 
+sudo chown -R $USER datadir
+
 # Cleanup old containers.
 docker rm -f hacdb myadmin hac-server smtp
 
