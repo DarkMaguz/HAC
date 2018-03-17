@@ -34,20 +34,14 @@ using namespace std;
 
 union raw_type
 {
-	/*char byte1x8[8];
-	short byte2x4[4];
-	int byte4x2[2];
-	long long byte8x1;*/
 	char type1[8];
 	long long type2;
 };
-
 
 bool mkfile( const char *path, bool overwrite = false );
 
 bool makedir( const char *path, bool overwrite = false );
 bool removedir( string path );
-//bool test_permissions(const char *path, int mode );
 bool file_exists( const char *path );
 bool is_file( const char *path );
 bool is_dir( const char *path );
@@ -61,5 +55,4 @@ int spc_email_isvalid( const char *address );
 
 string str_date( void );
 
-//bool dexist( const char *path );
 #endif /* UTILS_H_ */
