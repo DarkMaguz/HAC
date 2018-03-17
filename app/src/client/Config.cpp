@@ -8,20 +8,14 @@
 #include "Config.h"
 #include "Utils.h"
 
-/*static const char *const PROGRESS_PATH = "progress.dat";
-static const char *const PROGRESS_PATH_BAK = "progress.dat.bak";
-static const char *const CONFIG_PATH = "config.cfg";
-static const char *const CONFIG_PATH_BAK = "config.cfg.bak";*/
-
-bool is_space( char x )
+bool is_space(char x)
 {
-	return isspace( x );
+	return isspace(x);
 }
 
 Config::Config()
 {
-	
-	cpu_max = sysconf( _SC_NPROCESSORS_ONLN );
+	cpu_max = sysconf( _SC_NPROCESSORS_ONLN);
 	
 	cfg_map["user"] = cfg_user;
 	cfg_map["id"] = cfg_id;
@@ -35,17 +29,14 @@ Config::Config()
 	core_count = 0;
 	ram_percentage = 0;
 	benchmark = 0;
-	
 }
 
 Config::~Config()
 {
-	
 }
 
-void Config::Configure( void )
+void Config::Configure(void)
 {
-	
 	// Configure core count
 	uint64_t choice = 0;
 	string input;
@@ -54,35 +45,27 @@ void Config::Configure( void )
 	cout << "Detecting number of cpu's/core's...\t";
 	cout.flush();
 	
+	core_found = sysconf( _SC_NPROCESSORS_ONLN);
 	
-	
-	
-	core_found = sysconf( _SC_NPROCESSORS_ONLN );
-	
-	if ( core_count < 1 || core_count > core_found )
+	if (core_count < 1 || core_count > core_found)
 		core_count = core_found;
 	
 	cout << core_found << " found." << endl;
 	
-	if ( core_found > 1 )
+	if (core_found > 1)
 	{
-		
-		while( choice < 1 || choice > core_found )
+		while (choice < 1 || choice > core_found)
 		{
-			
 			cout << "How many do you wish to use[" << core_count << "]: ";
 			
-			getline( cin, input );
+			getline(cin, input);
 			
-			if ( input.empty() )
+			if (input.empty())
 				choice = core_count;
 			else
-				choice = atoi( input.c_str() );
-			
+				choice = atoi(input.c_str());
 		}
-		
 		core_count = choice;
-		
 	}
 	else
 	{
@@ -93,108 +76,91 @@ void Config::Configure( void )
 	choice = 0;
 	input.clear();
 	
-	if ( ram_percentage < RAM_PERCENTAGE_MIN || ram_percentage > RAM_PERCENTAGE_MAX )
+	if (ram_percentage < RAM_PERCENTAGE_MIN || ram_percentage > RAM_PERCENTAGE_MAX)
 		ram_percentage = RAM_PERCENTAGE_MAX;
 	
-	while( choice < RAM_PERCENTAGE_MIN || choice > RAM_PERCENTAGE_MAX )
+	while (choice < RAM_PERCENTAGE_MIN || choice > RAM_PERCENTAGE_MAX)
 	{
-		
 		cout << "How many percentage of available RAM do you wish to use[" << ram_percentage << "]: ";
 		
-		getline( cin, input );
+		getline(cin, input);
 		
-		if ( input.empty() )
+		if (input.empty())
 			choice = ram_percentage;
 		else
-			choice = atoi( input.c_str() );
-		
+			choice = atoi(input.c_str());
 	}
-	
 	ram_percentage = choice;
 	
 	// Configure user
 	bool status_good = false;
 	input.clear();
 	
-	while( !status_good )
+	while (!status_good)
 	{
-		
 		cout << "Username";
 		
-		if ( user.empty() )
+		if (user.empty())
 			cout << ": ";
 		else
 			cout << "[" << user << "]: ";
 		
-		getline( cin, input );
+		getline(cin, input);
 		
-		if ( input.empty() )
+		if (input.empty())
 		{
-			if ( !user.empty() )
+			if (!user.empty())
 				status_good = true;
 		}
 		else
 		{
-			
 			const static string goodchars = "-_.";
 			uint64_t userlen = input.length();
 			
-			if ( userlen < 6 )
+			if (userlen < 6)
 			{
 				cout << "Invalid user: To short, it must be at least 6." << endl;
 			}
 			else
 			{
 				status_good = true;
-				for ( uint64_t i = 0; i < userlen; i++ )
-					if ( !isalnum( input[i] ) )
+				for (uint64_t i = 0; i < userlen; i++)
+					if (!isalnum(input[i]))
 					{
-						
-						if ( i == 0 || i == userlen - 1 )
+						if (i == 0 || i == userlen - 1)
 						{
 							cout << "Invalid user: First and last sign must be alphanumeric." << endl;
 							status_good = false;
 							break;
 						}
-						else if ( goodchars.find( input[i] ) == string::npos )
+						else if (goodchars.find(input[i]) == string::npos)
 						{
 							cout << "Invalid user: Illegal sign \"" << input[i] << "\"." << endl;
 							status_good = false;
 							break;
 						}
-						
 					}
-				
 			}
 			
-			if ( status_good )
+			if (status_good)
 				user = input;
-			
 		}
-		
 	}
 	
-	/*cout << core_count << endl;
-	cout << ram_percentage << endl;
-	cout << user << endl;*/
-	
 	cfg_ok = SaveConfig();
-	
 }
 
-bool Config::SaveConfig( void )
+bool Config::SaveConfig(void)
 {
 	
 	cout << "Updating \"" << CONFIG_PATH << "\"...\t";
 	cout.flush();
-	if ( file_exists( CONFIG_PATH ) )
-		rename( CONFIG_PATH, CONFIG_PATH_BAK );
+	if (file_exists( CONFIG_PATH))
+		rename( CONFIG_PATH, CONFIG_PATH_BAK);
 	
-	fstream fs( CONFIG_PATH, ios::out | ios::trunc );
-	
-	if ( fs.is_open() )
+	fstream fs( CONFIG_PATH, ios::out | ios::trunc);
+	if (fs.is_open())
 	{
-		
 		fs << "user\t= " << user << endl;
 		fs << "id\t= " << user_id << endl;
 		fs << "cores\t= " << core_count << endl;
@@ -205,177 +171,140 @@ bool Config::SaveConfig( void )
 		
 		cout << "[SUCCESS]" << endl;
 		
-		if ( file_exists( CONFIG_PATH_BAK ) )
-			remove( CONFIG_PATH_BAK );
-		
+		if (file_exists( CONFIG_PATH_BAK))
+			remove( CONFIG_PATH_BAK);
 	}
 	else
 	{
-		
-		if ( file_exists( CONFIG_PATH_BAK ) )
+		if (file_exists( CONFIG_PATH_BAK))
 		{
-			
-			if ( file_exists( CONFIG_PATH ) )
-				remove( CONFIG_PATH );
-			
-			rename( CONFIG_PATH_BAK, CONFIG_PATH );
-			
+			if (file_exists( CONFIG_PATH))
+				remove( CONFIG_PATH);
+			rename( CONFIG_PATH_BAK, CONFIG_PATH);
 		}
 		
 		cerr << "[FAILED]" << endl;
-		cerr << "Error writing \"" << CONFIG_PATH << "\"."<< endl;
+		cerr << "Error writing \"" << CONFIG_PATH << "\"." << endl;
 		
 		return false;
-		
 	}
 	
 	return true;
-	
 }
 
-void Config::LoadConfig( void )
+void Config::LoadConfig(void)
 {
-	
 	cfg_ok = false;
 	
 	cout << "File: \"" << CONFIG_PATH << "\"\t";
 	cout.flush();
 	
-	if ( !file_exists( CONFIG_PATH ) )
+	if (!file_exists( CONFIG_PATH))
 	{
-		//cerr << "[FAILED]" << endl;
 		cout << "Not found." << endl;
 		cout << "Running configuration:" << endl;
 		Configure();
-		
 	}
 	else
 	{
-		
-		fstream fs( CONFIG_PATH );
-		
-		if ( fs.is_open() )
+		fstream fs( CONFIG_PATH);
+		if (fs.is_open())
 		{
-			
 			string cfg_line;
 			uint64_t found;
 			
-			while ( !fs.eof() )
+			while (!fs.eof())
 			{
-				
 				cfg_line.clear();
 				
-				getline( fs, cfg_line );
+				getline(fs, cfg_line);
 				
-				cfg_line.erase( remove_if( cfg_line.begin(), cfg_line.end(), is_space ), cfg_line.end() );
+				cfg_line.erase(remove_if(cfg_line.begin(), cfg_line.end(), is_space), cfg_line.end());
 				
-				found = cfg_line.find( '#' );
-				if ( found != string::npos )
-					cfg_line.erase( found );
+				found = cfg_line.find('#');
+				if (found != string::npos)
+					cfg_line.erase(found);
 				
-				if ( !cfg_line.empty() )
+				if (!cfg_line.empty())
 				{
+					found = cfg_line.find('=');
 					
-					found = cfg_line.find( '=' );
-					
-					switch ( cfg_map[cfg_line.substr( 0, found )] )
+					switch (cfg_map[cfg_line.substr(0, found)])
 					{
 						case cfg_user:
 						{
-							user = cfg_line.substr( found+1 );
+							user = cfg_line.substr(found + 1);
 							break;
 						}
 						case cfg_id:
 						{
-							user_id = atoll( cfg_line.substr( found+1 ).c_str() );
+							user_id = atoll(cfg_line.substr(found + 1).c_str());
 							break;
 						}
 						case cfg_cores:
 						{
-							core_count = atoll( cfg_line.substr( found+1 ).c_str() );
+							core_count = atoll(cfg_line.substr(found + 1).c_str());
 							break;
 						}
 						case cfg_ram:
 						{
-							ram_percentage = atoll( cfg_line.substr( found+1 ).c_str() );
+							ram_percentage = atoll(cfg_line.substr(found + 1).c_str());
 							break;
 						}
 						case cfg_benchmark:
 						{
-							benchmark = atoll( cfg_line.substr( found+1 ).c_str() );
+							benchmark = atoll(cfg_line.substr(found + 1).c_str());
 							break;
 						}
 						default:
-							
 							break;
 					}
-					
 				}
-				
 			}
-			
 			fs.close();
 			
-			
-			if ( core_count > (uint64_t)sysconf( _SC_NPROCESSORS_ONLN ) )
+			if (core_count > (uint64_t)sysconf( _SC_NPROCESSORS_ONLN))
 			{
-				
 				cerr << "[FAILED]" << endl;
 				cerr << "Error getting correct number of cpu's/core's from \"" << CONFIG_PATH << "\"." << endl;
-				cerr << CONFIG_PATH << " asked for " << core_count << " cpu's/core's, while system only has " << (uint64_t)sysconf( _SC_NPROCESSORS_ONLN ) << endl;
+				cerr << CONFIG_PATH << " asked for " << core_count << " cpu's/core's, while system only has " << (uint64_t)sysconf( _SC_NPROCESSORS_ONLN) << endl;
 				cout << "Running configuration:" << endl;
 				Configure();
-				
 			}
-			else if ( core_count == 0 )
+			else if (core_count == 0)
 			{
-				
 				cerr << "[FAILED]" << endl;
 				cerr << "Error getting correct number of cpu's/core's from \"" << CONFIG_PATH << "\"." << endl;
 				cerr << CONFIG_PATH << " asked for 0 it must be at least 1" << endl;
 				cout << "Running configuration:" << endl;
 				Configure();
-				
 			}
-			else if ( ram_percentage < RAM_PERCENTAGE_MIN || ram_percentage > RAM_PERCENTAGE_MAX )
+			else if (ram_percentage < RAM_PERCENTAGE_MIN || ram_percentage > RAM_PERCENTAGE_MAX)
 			{
-				
 				cerr << "[FAILED]" << endl;
 				cerr << "Error getting correct ram usage from \"" << CONFIG_PATH << "\"." << endl;
 				cerr << CONFIG_PATH << " asked for " << ram_percentage << "% of available ram," << endl;
 				cerr << "it has to be whit in the range from " << RAM_PERCENTAGE_MIN << " to " << RAM_PERCENTAGE_MAX << endl;
 				cout << "Running configuration:" << endl;
 				Configure();
-				
 			}
-			else if ( user.empty() )
+			else if (user.empty())
 			{
-				
 				cerr << "[FAILED]" << endl;
 				cerr << "Error getting user name from \"" << CONFIG_PATH << "\"." << endl;
 				cout << "Running configuration:" << endl;
 				Configure();
-				
 			}
 			else
 			{
 				cout << "[SUCCESS]" << endl;
 				cfg_ok = true;
 			}
-			
-			/*if ( benchmark == 0 )
-			{
-				benchmark = BenchMark();
-			}*/
-			
 		}
 		else
 		{
 			cerr << "[FAILED]" << endl;
 			cerr << "Error opening \"" << CONFIG_PATH << "\"." << endl;
-			//Exit();
 		}
-		
 	}
-	
 }

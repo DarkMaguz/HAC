@@ -26,7 +26,7 @@ using namespace std;
 #define CONFIG_PATH "config.cfg"
 #define CONFIG_PATH_BAK "config.cfg.bak"
 
-bool is_space( char x );
+bool is_space(char x);
 
 enum cfg_args
 {
@@ -44,17 +44,14 @@ class Config
 		Config();
 		virtual ~Config();
 		
-		void Configure( void );
-		bool SaveConfig( void );
-		void LoadConfig( void );
+		void Configure(void);
+		bool SaveConfig(void);
+		void LoadConfig(void);
 		
 		string user;
-		
 		bool cfg_ok;
 		
 	protected:
-		
-		//string user;
 		uint64_t user_id;
 		uint64_t core_count;
 		uint64_t ram_percentage;
@@ -62,11 +59,7 @@ class Config
 		uint64_t cpu_max;
 		
 	private:
-		
 		map<string, cfg_args> cfg_map;
-		
-		//bool cfg_ok;
-		
 };
 
 #endif /* CONFIG_H_ */
