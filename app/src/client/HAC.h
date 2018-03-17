@@ -53,7 +53,7 @@ class HAC: public Config
 	public:
 		HAC();
 		virtual ~HAC();
-
+		
 		void Start(void);
 		uint64_t BenchMark(void);
 		void Debug(const string path);
@@ -63,25 +63,25 @@ class HAC: public Config
 		struct sysinfo sysInfo;
 		int32_t exitType;
 		sigset_t signalMask;
-
+		
 		ClientSocket clientSocket;
-
+		
 		void Exit(int32_t status = 0);
-
+		
 		void ClearWU(void);
 		void PrepareWU(void);
-
+		
 		void Save(void);
 		void Load(void);
-
+		
 		bool Connect(void);
 		bool Auth(void);
-
+		
 		void Send(void);
 		void SendCollision(void);
 		void Get(void);
 		void Free(void);
-
+		
 	public:
 		void Activate(void);
 		void Register(string new_email);
