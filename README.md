@@ -29,6 +29,8 @@ Run the client:
 ```
 
 ### Plans for the future
-* Create a web interface for statistics.
-* Separate the algorithm from the client/server, so that this project can be used for other purposes.
-* Make the server scalable.
+- [x] Initial clean up. (Completed Marts 2018)
+- [ ] Add unit testing. (In progress)
+- [ ] Create a web interface for statistics.
+- [ ] Separate the algorithm from the client/server, so that this project can be used for other purposes.
+- [ ] Make the server scalable.
