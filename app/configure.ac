@@ -12,6 +12,7 @@ AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE([foreign])
 
 AC_PROG_CXX
+AC_LANG_CPLUSPLUS
 
 dnl ###########################################################################
 dnl Dependencies
@@ -41,5 +42,7 @@ if test "x$PTHREAD_LIBS" = xerror; then
 fi
 AC_SUBST(PTHREAD_LIBS)
 
-AC_CONFIG_FILES(Makefile src/Makefile src/misc/Makefile src/client/Makefile src/server/Makefile)
+AC_CHECK_HEADER([gtest/gtest.h], [], [AC_MSG_ERROR([Couldn't find or include gtest.h])])
+
+AC_CONFIG_FILES(Makefile src/Makefile src/misc/Makefile src/client/Makefile src/server/Makefile src/test/Makefile)
 AC_OUTPUT

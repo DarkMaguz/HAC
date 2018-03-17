@@ -1,2 +1,2 @@
-SUBDIRS = misc client server
+SUBDIRS = misc client server test
 

@@ -50,6 +50,9 @@ app/src/server/.deps/
 app/src/server/.libs/
 app/src/server/Makefile
 app/src/server/hacd
+app/src/test/.deps/
+app/src/test/Makefile
+app/src/test/Makefile.in
 
 # Eclipse project files
 .autotools
