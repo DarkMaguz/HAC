@@ -17,7 +17,7 @@ export GMAIL_PASSWORD=some.password
 ### Running the client
 First register a new user:
 ```bash
-./hac -r foobar foobar@foobar.com
+./hac -r foobar foo@bar.com
 ```
 Activate the account:
 ```bash
