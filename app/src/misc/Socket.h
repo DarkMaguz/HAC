@@ -23,20 +23,6 @@ using namespace std;
 
 struct SocketTTL_s
 {
-	
-	/*SocketTTL_s()
-	{
-		
-	}
-	
-	SocketTTL_s( const int32_t &seconds, const int32_t &microseconds, const pthread_t &parrent_threadid ) :
-		seconds( seconds ),
-		microseconds( microseconds ),
-		parrent_threadid( parrent_threadid )
-	{
-		
-	}*/
-	
 	int32_t seconds;
 	int32_t microseconds;
 	
@@ -45,72 +31,59 @@ struct SocketTTL_s
 	pthread_attr_t pattr;
 	
 	void *arg;
-	void *(*stop_routine) (void *);
-	
-	//bool is_set;
-	
+	void *(*stop_routine)(void *);
 };
 
-void *SocketConnect( void *arg );
-void *SocketTTL( void *arg ); // Socket Time To Live
+void *SocketConnect(void *arg);
+void *SocketTTL(void *arg); // Socket Time To Live
 
 class Socket
 {
-		friend void *SocketTTL( void *arg );
+		friend void *SocketTTL(void *arg);
 	public:
 		Socket();
-		//Socket( const Socket &x );
-		Socket( const int32_t sockfd, const int32_t port );
+		Socket(const int32_t sockfd, const int32_t port);
 		virtual ~Socket();
 		
-		void SetTTL( const int32_t &seconds, const int32_t &microseconds, void *(*stop_routine) (void *), void *arg );
+		void SetTTL(const int32_t &seconds, const int32_t &microseconds, void *(*stop_routine)(void *), void *arg);
 		
-		bool IsGood( void ) { return !( sockfd < 0 ); };
+		bool IsGood(void)
+		{
+			return !(sockfd < 0);
+		};
 		
-		void Close() { close( sockfd ); };
+		void Close()
+		{
+			close(sockfd);
+		};
 		
 	protected:
-		
 		int32_t sockfd;
 		int32_t port;
-		
 		bool is_good;
-		
 		struct SocketTTL_s ttl;
-		
 };
 
-class ClientSocket : public Socket
+class ClientSocket: public Socket
 {
-		friend void *SocketConnect( void *arg );
+		friend void *SocketConnect(void *arg);
 	public:
-		ClientSocket( const char *host, const int32_t port );
+		ClientSocket(const char *host, const int32_t port);
 		virtual ~ClientSocket();
 		
-		/*Socket &operator Socket( void ) const
-		{
-			return 
-		}*/
-		
-		bool Connect( const int32_t retrys );
+		bool Connect(const int32_t retrys);
 		
 	private:
-		
 		const char *host;
-		
 };
 
-class ServerSocket : public Socket
+class ServerSocket: public Socket
 {
 	public:
-		ServerSocket( const int32_t port );
+		ServerSocket(const int32_t port);
 		virtual ~ServerSocket();
 		
-		Socket Accept( void ) const;
-		
-	private:
-		
-		
+		Socket Accept(void) const;
 };
 
 #endif /* SOCKET_H_ */
