@@ -83,5 +83,8 @@ app/src/client/workunit.dat
 datadir/
 log/
 
+# Test
+app/src/test/.libs/
+
 # Developer scripts
 go.sh
