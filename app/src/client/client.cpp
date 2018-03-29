@@ -30,8 +30,7 @@ const char useage[] =
 
 enum args
 {
-	cmd_0,
-	cmd_r,
+	cmd_r = 1,
 	cmd_a,
 	cmd_c,
 	cmd_u,
