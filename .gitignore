@@ -58,6 +58,7 @@ app/src/server/hacd
 app/src/test/.deps/
 app/src/test/Makefile
 app/src/test/Makefile.in
+app/src/test/test
 
 # Eclipse project files
 .autotools
