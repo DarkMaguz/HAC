@@ -17,7 +17,7 @@ export GMAIL_PASSWORD=some.password
 ### Running the client
 First register a new user:
 ```bash
-./hac -r foobar foobar@foobar.com
+./hac -r foobar foo@bar.com
 ```
 Activate the account:
 ```bash
@@ -29,6 +29,8 @@ Run the client:
 ```
 
 ### Plans for the future
-* Create a web interface for statistics.
-* Separate the algorithm from the client/server, so that this project can be used for other purposes.
-* Make the server scalable.
+- [x] Initial cleanup. (Completed Marts 2018)
+- [ ] Add unit testing. (In progress)
+- [ ] Create a web interface for statistics.
+- [ ] Separate the algorithm from the client/server, so that this project can be used for other purposes.
+- [ ] Make the server scalable.
