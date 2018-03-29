@@ -38,6 +38,15 @@ app/autom4te.cache/
 app/config.log
 app/config.status
 app/libtool
+app/aclocal.m4
+app/compile
+app/config.guess
+app/config.sub
+app/configure
+app/depcomp
+app/install-sh
+app/ltmain.sh
+app/missing
 app/src/.deps/
 app/src/Makefile
 app/src/Makefile.in
